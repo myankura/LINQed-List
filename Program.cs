@@ -33,12 +33,12 @@ namespace linq
 
             // //This is how you would sort each fruit out by the first letter but not restricting it to fruits only starting with 'L'
             // //Save this code for later
-            // var LFruits = fruits.GroupBy(firstLetter => firstLetter[0]);
+            // var sortFruits = fruits.GroupBy(firstLetter => firstLetter[0]);
 
-            //     foreach(var LFruit in LFruits)
+            //     foreach(var sortFruit in sortFruits)
             //     {
-            //         Console.WriteLine("Fruits starting with {0}", LFruit.Key);
-            //         foreach(var fruit in LFruit)
+            //         Console.WriteLine("Fruits starting with {0}", sortFruit.Key);
+            //         foreach(var fruit in sortFruit)
             //         {
             //             Console.WriteLine("  {0}", fruit);
             //         }
