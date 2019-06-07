@@ -222,21 +222,22 @@ namespace linq
             };
 
             //Create a new collection for people who are millionaires from Customer Collection
-            List<Customer> richPeople = (customers.Where(c => c.Balance >= 1000000)).ToList();
+            // List<Customer> richPeople = (customers.Where(c => c.Balance >= 1000000)).ToList();
 
-            //Create a collection for sorting out which bank 
-            List<ReportItem> millionaireReport = (from customer in richPeople 
+            //Create a collection for sorting out which bank
+            List<ReportItem> millionaireReport = (from customer in customers
+                where customer.Balance >= 1000000
                 join bank in banks on customer.Bank equals bank.Symbol
                 select new ReportItem{
                     CustomerName = customer.Name,
                     BankName = bank.Name,
                     Balance = customer.Balance
                 }).ToList();
-            //Loop over the millionaireReport and order by last name descending
+            //Loop over the millionaireReport and order by last name ascending
             foreach (var item in millionaireReport.OrderBy(name => name.GetLastName()))
-                {
-                    Console.WriteLine($"{item.CustomerName} at {item.BankName} - {item.Balance.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))}");
-                }
+            {
+                Console.WriteLine($"{item.CustomerName} at {item.BankName} - {item.Balance.ToString("C", CultureInfo.GetCultureInfo("en-US"))}");
+            }
         }
     }
 }
