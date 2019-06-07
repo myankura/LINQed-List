@@ -1,33 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
 
 namespace linq
 {
-    //Define a class for customers note: this class is used for pt1
-    public class Customer
-    {
-        public string Name { get; set; }
-        public double Balance { get; set; }
-        public string Bank { get; set; }
-    }
-
-    //Define a class for banks
-    public class Bank
-    {
-        public string Name { get; set; }
-        public int MillionaireCount { get; set; }
-        public string Symbol { get; set; }
-    }
-
-    //Define a class for ReportItem
-    public class ReportItem
-    {
-        public string CustomerName { get; set; }
-        public string BankName { get; set; }
-    }
-
-
     class Program
     {
         static void Main(string[] args)
@@ -208,12 +185,13 @@ namespace linq
                 CITI 1
             */
             IEnumerable<Bank> millionaires = (from m in customers
-                                              group m by m.Bank into MillionaireClub
-                                              select new Bank
-                                              {
-                                                  Name = MillionaireClub.Key,
-                                                  MillionaireCount = MillionaireClub.Where(c => c.Balance >= 1000000).Count()
-                                              });
+                group m by m.Bank into MillionaireClub
+                select new Bank
+                {
+                    Name = MillionaireClub.Key,
+                    MillionaireCount = MillionaireClub.Where(c => c.Balance >= 1000000).Count()
+                }
+                );
             Console.WriteLine("The following banks have n number of millionaires");
             foreach (Bank bank in millionaires)
             {
@@ -243,10 +221,21 @@ namespace linq
             new Bank(){ Name="Citibank", Symbol="CITI"},
             };
 
+            //Create a new collection for people who are millionaires from Customer Collection
+            List<Customer> richPeople = (customers.Where(c => c.Balance >= 1000000)).ToList();
 
-            foreach (var item in millionaireReport)
+            //Create a collection for sorting out which bank 
+            List<ReportItem> millionaireReport = (from customer in richPeople 
+                join bank in banks on customer.Bank equals bank.Symbol
+                select new ReportItem{
+                    CustomerName = customer.Name,
+                    BankName = bank.Name,
+                    Balance = customer.Balance
+                }).ToList();
+            //Loop over the millionaireReport and order by last name descending
+            foreach (var item in millionaireReport.OrderBy(name => name.GetLastName()))
                 {
-                    Console.WriteLine($"{item.CustomerName} at {item.BankName}");
+                    Console.WriteLine($"{item.CustomerName} at {item.BankName} - {item.Balance.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))}");
                 }
         }
     }
