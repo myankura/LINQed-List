@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Globalization;
 
 namespace linq
 {
@@ -34,16 +33,17 @@ namespace linq
 
             // //This is how you would sort each fruit out by the first letter but not restricting it to fruits only starting with 'L'
             // //Save this code for later
-            // var sortFruits = fruits.GroupBy(firstLetter => firstLetter[0]);
+            var sortFruits = fruits.GroupBy(firstLetter => firstLetter[0]);
 
-            //     foreach(var sortFruit in sortFruits)
-            //     {
-            //         Console.WriteLine("Fruits starting with {0}", sortFruit.Key);
-            //         foreach(var fruit in sortFruit)
-            //         {
-            //             Console.WriteLine("  {0}", fruit);
-            //         }
-            //     }
+                foreach(var sortFruit in sortFruits)
+                {
+                    Console.WriteLine("Fruits starting with {0}", sortFruit.Key);
+                    foreach(var fruit in sortFruit)
+                    {
+                        Console.WriteLine("  {0}", fruit);
+                    }
+                }
+                Console.WriteLine();
 
             // Which of the following numbers are multiples of 4 or 6
             List<int> numbers = new List<int>()
@@ -234,9 +234,9 @@ namespace linq
                     Balance = customer.Balance
                 }).ToList();
             //Loop over the millionaireReport and order by last name ascending
-            foreach (var item in millionaireReport.OrderBy(name => name.GetLastName()))
+            foreach (var item in millionaireReport.OrderBy(name => name.GetLastName))
             {
-                Console.WriteLine($"{item.CustomerName} at {item.BankName} - {item.Balance.ToString("C", CultureInfo.GetCultureInfo("en-US"))}");
+                Console.WriteLine($"{item.CustomerName} at {item.BankName} - {item.Balance.ToString("C")}");
             }
         }
     }

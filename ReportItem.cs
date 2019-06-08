@@ -7,9 +7,6 @@ namespace linq
         public string CustomerName { get; set; }
         public string BankName { get; set; }
 
-        public string GetLastName() 
-        {
-            return this.CustomerName.Split(" ")[1];
-        }
+        public string GetLastName => this.CustomerName.Split(" ")[1];
     }
 }
